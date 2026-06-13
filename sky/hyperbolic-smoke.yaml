@@ -1,0 +1,14 @@
+name: hyperbolic-smoke
+
+workdir: .
+
+resources:
+  infra: hyperbolic
+  accelerators: H100:1
+
+setup: |
+  python --version
+
+run: |
+  set -euo pipefail
+  python scripts/cloud_smoke.py

@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+API_KEY_FILE="${HOME}/.lambda_cloud/lambda_keys"
+
+if [[ -f "${ROOT_DIR}/.env" ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source "${ROOT_DIR}/.env"
+  set +a
+fi
+
+if [[ -z "${LAMBDA_API_KEY:-}" ]]; then
+  echo "LAMBDA_API_KEY is not set. Add it to .env first." >&2
+  exit 1
+fi
+
+mkdir -p "$(dirname "${API_KEY_FILE}")"
+printf 'api_key = %s\n' "${LAMBDA_API_KEY}" > "${API_KEY_FILE}"
+chmod 600 "${API_KEY_FILE}"
+echo "Wrote Lambda Cloud credentials to ${API_KEY_FILE}"

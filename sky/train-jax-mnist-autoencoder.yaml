@@ -1,0 +1,21 @@
+name: train-jax-mnist-autoencoder
+
+workdir: .
+
+resources:
+  accelerators: {RTX4090:1, L4:1, A100:1}
+
+setup: |
+  set -euo pipefail
+  python -m pip install --upgrade pip
+  python -m pip install -r requirements-jax-mnist.txt
+  python - <<'PY'
+  import jax
+  print("jax", jax.__version__)
+  print("backend", jax.default_backend())
+  print("devices", jax.devices())
+  PY
+
+run: |
+  set -euo pipefail
+  python scripts/train_jax_mnist_autoencoder.py --epochs 5 --max-train-samples 20000 --max-test-samples 5000 --batch-size 256

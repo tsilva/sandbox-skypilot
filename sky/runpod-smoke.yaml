@@ -1,0 +1,14 @@
+name: runpod-smoke
+
+workdir: .
+
+resources:
+  infra: runpod
+  accelerators: {L4:1, RTX4090:1, A100-80GB:1}
+
+setup: |
+  python --version
+
+run: |
+  set -euo pipefail
+  python scripts/cloud_smoke.py

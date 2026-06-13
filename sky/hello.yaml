@@ -1,0 +1,20 @@
+name: hello-skypilot
+
+workdir: .
+
+resources:
+  cpus: 2+
+
+setup: |
+  python --version
+
+run: |
+  set -euo pipefail
+  echo "Hello from SkyPilot"
+  echo "Host: $(hostname)"
+  echo "Python: $(python --version)"
+  if command -v nvidia-smi >/dev/null 2>&1; then
+    nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true
+  else
+    echo "nvidia-smi not available on this node"
+  fi

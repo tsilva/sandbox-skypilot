@@ -1,0 +1,17 @@
+[project]
+name = "sandbox-skypilot"
+version = "0.1.0"
+description = "Small SkyPilot sandbox for switching between RunPod, Hyperbolic, and Lambda Cloud."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "runpod>=1.6",
+  "skypilot[hyperbolic,lambda,runpod]>=0.12.3,<0.13",
+]
+
+[tool.uv]
+exclude-newer = "7 days"
+constraint-dependencies = [
+  "guardrails-ai!=0.10.1",
+  "mistralai!=2.4.6",
+]

@@ -1,0 +1,14 @@
+name: lambda-smoke
+
+workdir: .
+
+resources:
+  infra: lambda
+  accelerators: {A10:1, A100:1}
+
+setup: |
+  python --version
+
+run: |
+  set -euo pipefail
+  python scripts/cloud_smoke.py

@@ -1,0 +1,21 @@
+name: train-pytorch-runpod
+
+workdir: .
+
+resources:
+  infra: runpod
+  accelerators: {L4:1, RTX4090:1}
+
+setup: |
+  set -euo pipefail
+  python -m pip install --upgrade pip
+  python -m pip install -r requirements-train.txt
+  python - <<'PY'
+  import torch
+  print("torch", torch.__version__)
+  print("cuda_available", torch.cuda.is_available())
+  PY
+
+run: |
+  set -euo pipefail
+  python scripts/train_torch.py --epochs 5 --samples 8192 --batch-size 256

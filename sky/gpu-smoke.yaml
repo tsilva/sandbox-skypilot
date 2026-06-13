@@ -1,0 +1,14 @@
+name: gpu-smoke
+
+workdir: .
+
+resources:
+  accelerators: {T4:1, L4:1, A10:1, RTX4090:1, A100:1}
+
+setup: |
+  python --version
+
+run: |
+  set -euo pipefail
+  echo "GPU smoke test"
+  nvidia-smi
