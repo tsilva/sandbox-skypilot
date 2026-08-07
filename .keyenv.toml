@@ -1,0 +1,15 @@
+# Credential references only. Store values with `keyenv set ENV_NAME`.
+[keyenv]
+version = 1
+
+[secrets.HYPERBOLIC_API_KEY]
+account = "sandbox-skypilot/HYPERBOLIC_API_KEY"
+required = true
+
+[secrets.LAMBDA_API_KEY]
+account = "sandbox-skypilot/LAMBDA_API_KEY"
+required = true
+
+[secrets.RUNPOD_API_KEY]
+account = "sandbox-skypilot/RUNPOD_API_KEY"
+required = true
