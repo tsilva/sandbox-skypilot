@@ -1,0 +1,21 @@
+name: train-unsloth-tinyllama
+
+workdir: .
+
+resources:
+  accelerators: {RTX4090: 1}
+  image_id: docker:us-docker.pkg.dev/sky-dev-465/skypilotk8s/skypilot-gpu:latest
+
+setup: |
+  set -euo pipefail
+  BOOTSTRAP_PYTHON=/home/sky/skypilot-runtime/bin/python
+  ML_VENV="$HOME/ml-gpu-venv"
+  if [ ! -x "$ML_VENV/bin/python" ]; then
+    "$BOOTSTRAP_PYTHON" -m venv "$ML_VENV"
+  fi
+  "$ML_VENV/bin/python" -m pip install --upgrade pip
+  "$ML_VENV/bin/python" -m pip install -r requirements-ml-gpu-image.txt
+
+run: |
+  set -euo pipefail
+  "$HOME/ml-gpu-venv/bin/python" scripts/train_unsloth_tinyllama.py --steps 3 --max-seq-length 256

@@ -7,32 +7,29 @@ This is a small local setup for trying SkyPilot on RunPod, Hyperbolic, and Lambd
 ```bash
 uv --cache-dir .uv-cache sync
 chmod +x scripts/skyctl
-cp .env.example .env
+keyenv doctor
 ```
 
-Fill in `.env`:
+The three provider keys declared in `.keyenv.toml` live in macOS Keychain.
+Launch provider commands through `keyenv run -- ...`; the scripts continue to
+read ordinary environment variables. Keep only non-secret overrides such as
+`SKY_CLUSTER_PREFIX` in `.env`.
 
-```bash
-RUNPOD_API_KEY=...
-HYPERBOLIC_API_KEY=...
-LAMBDA_API_KEY=...
-```
-
-For RunPod, `uv --cache-dir .uv-cache run runpod config` is also supported. For Hyperbolic, add your local SSH public key in the Hyperbolic dashboard because SkyPilot needs SSH access to launched instances. For Lambda Cloud, `scripts/configure_lambda` can write SkyPilot's expected credential file from `.env`.
+For RunPod, `keyenv run -- uv --cache-dir .uv-cache run runpod config` is also supported. For Hyperbolic, add your local SSH public key in the Hyperbolic dashboard because SkyPilot needs SSH access to launched instances. For Lambda Cloud, `keyenv run -- scripts/configure_lambda` can write SkyPilot's required credential file with mode `0600`.
 
 Verify credentials:
 
 ```bash
-./scripts/skyctl check
+keyenv run -- ./scripts/skyctl check
 ```
 
 ## Hyperbolic Setup
 
 SkyPilot's Hyperbolic provider expects your API key at `~/.hyperbolic/api_key`.
-You can create it from `.env` with:
+You can create it from the Keychain value with:
 
 ```bash
-./scripts/configure_hyperbolic
+keyenv run -- ./scripts/configure_hyperbolic
 uv --cache-dir .uv-cache run sky check hyperbolic
 ```
 
@@ -52,10 +49,10 @@ ssh-keygen -t ed25519 -C "your-email@example.com"
 ## Lambda Cloud Setup
 
 SkyPilot's Lambda Cloud provider expects your API key at `~/.lambda_cloud/lambda_keys`.
-You can create it from `.env` with:
+You can create it from the Keychain value with:
 
 ```bash
-./scripts/configure_lambda
+keyenv run -- ./scripts/configure_lambda
 uv --cache-dir .uv-cache run sky check lambda
 ```
 
@@ -63,13 +60,13 @@ uv --cache-dir .uv-cache run sky check lambda
 
 ```bash
 ./scripts/skyctl use runpod
-./scripts/skyctl launch
+keyenv run -- ./scripts/skyctl launch
 
 ./scripts/skyctl use hyperbolic
-./scripts/skyctl launch sky/hyperbolic-smoke.yaml
+keyenv run -- ./scripts/skyctl launch sky/hyperbolic-smoke.yaml
 
 ./scripts/skyctl use lambda
-./scripts/skyctl launch sky/lambda-smoke.yaml
+keyenv run -- ./scripts/skyctl launch sky/lambda-smoke.yaml
 ```
 
 The active provider is stored in `.sky-provider`, which is intentionally ignored by Git.

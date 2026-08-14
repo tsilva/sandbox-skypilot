@@ -1,0 +1,13 @@
+name: rtx2060-smoke
+
+resources:
+  accelerators: {RTX2060: 1}
+
+setup: |
+  python --version
+
+run: |
+  set -euo pipefail
+  echo "RTX 2060 SkyPilot smoke"
+  hostname
+  nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader

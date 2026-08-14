@@ -13,7 +13,7 @@ if [[ -f "${ENV_FILE}" ]]; then
 fi
 
 if [[ -z "${HYPERBOLIC_API_KEY:-}" ]]; then
-  echo "HYPERBOLIC_API_KEY is not set. Add it to ${ENV_FILE} or export it first." >&2
+  echo "HYPERBOLIC_API_KEY is not set. Run this command through keyenv." >&2
   exit 2
 fi
 

@@ -12,7 +12,7 @@ if [[ -f "${ROOT_DIR}/.env" ]]; then
 fi
 
 if [[ -z "${LAMBDA_API_KEY:-}" ]]; then
-  echo "LAMBDA_API_KEY is not set. Add it to .env first." >&2
+  echo "LAMBDA_API_KEY is not set. Run this command through keyenv." >&2
   exit 1
 fi
 
