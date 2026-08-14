@@ -17,7 +17,6 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-
 MNIST_BASE_URL = "https://storage.googleapis.com/cvdf-datasets/mnist"
 TRAIN_IMAGES = "train-images-idx3-ubyte.gz"
 TEST_IMAGES = "t10k-images-idx3-ubyte.gz"
@@ -111,14 +110,18 @@ def train_step(
     step: jax.Array,
     batch: jax.Array,
     lr: float,
-) -> tuple[list[dict[str, jax.Array]], list[dict[str, jax.Array]], list[dict[str, jax.Array]], jax.Array]:
+) -> tuple[
+    list[dict[str, jax.Array]], list[dict[str, jax.Array]], list[dict[str, jax.Array]], jax.Array
+]:
     loss, grads = jax.value_and_grad(reconstruction_loss)(params, batch)
     beta1 = 0.9
     beta2 = 0.999
     eps = 1e-8
     step = step + 1
     m = jax.tree_util.tree_map(lambda old, grad: beta1 * old + (1.0 - beta1) * grad, m, grads)
-    v = jax.tree_util.tree_map(lambda old, grad: beta2 * old + (1.0 - beta2) * (grad * grad), v, grads)
+    v = jax.tree_util.tree_map(
+        lambda old, grad: beta2 * old + (1.0 - beta2) * (grad * grad), v, grads
+    )
     m_hat = jax.tree_util.tree_map(lambda value: value / (1.0 - beta1**step), m)
     v_hat = jax.tree_util.tree_map(lambda value: value / (1.0 - beta2**step), v)
     params = jax.tree_util.tree_map(

@@ -6,9 +6,9 @@ from __future__ import annotations
 import argparse
 import json
 import math
-from pathlib import Path
 import socket
 import time
+from pathlib import Path
 
 import torch
 from torch import nn
@@ -83,8 +83,12 @@ def make_batch(
     classes = templates.shape[0]
     labels = torch.randint(classes, (batch_size,), generator=generator, device=templates.device)
     images = templates[labels].clone()
-    images = images + noise * torch.randn(images.shape, generator=generator, device=templates.device)
-    gain = 0.85 + 0.3 * torch.rand((batch_size, 1, 1, 1), generator=generator, device=templates.device)
+    images = images + noise * torch.randn(
+        images.shape, generator=generator, device=templates.device
+    )
+    gain = 0.85 + 0.3 * torch.rand(
+        (batch_size, 1, 1, 1), generator=generator, device=templates.device
+    )
     shift = 0.08 * torch.randn((batch_size, 1, 1, 1), generator=generator, device=templates.device)
     return images * gain + shift, labels
 
