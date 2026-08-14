@@ -9,9 +9,25 @@ dependencies = [
   "skypilot[hyperbolic,lambda,runpod]>=0.12.3,<0.13",
 ]
 
+[dependency-groups]
+dev = [
+  "pytest>=9.0.3",
+  "ruff>=0.14.14",
+]
+
 [tool.uv]
 exclude-newer = "7 days"
 constraint-dependencies = [
   "guardrails-ai!=0.10.1",
   "mistralai!=2.4.6",
 ]
+override-dependencies = [
+  "click>=8.3.3",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
