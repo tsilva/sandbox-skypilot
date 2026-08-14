@@ -5,17 +5,15 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 import socket
 import time
+from pathlib import Path
 
 import torch
 from torch import nn
 from torch.nn import functional as F
-from torch.utils.data import DataLoader
-from torch.utils.data import Subset
-from torchvision import datasets
-from torchvision import transforms
+from torch.utils.data import DataLoader, Subset
+from torchvision import datasets, transforms
 
 
 class BasicBlock(nn.Module):
@@ -88,7 +86,9 @@ def make_loaders(args: argparse.Namespace) -> tuple[DataLoader, DataLoader]:
         ]
     )
     val_transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean, std)])
-    train_set = datasets.CIFAR10(args.data_dir, train=True, download=True, transform=train_transform)
+    train_set = datasets.CIFAR10(
+        args.data_dir, train=True, download=True, transform=train_transform
+    )
     val_set = datasets.CIFAR10(args.data_dir, train=False, download=True, transform=val_transform)
     train_subset = Subset(train_set, range(min(args.train_samples, len(train_set))))
     val_subset = Subset(val_set, range(min(args.val_samples, len(val_set))))

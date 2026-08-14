@@ -5,7 +5,7 @@ This is a small local setup for trying SkyPilot on RunPod, Hyperbolic, and Lambd
 ## Install
 
 ```bash
-uv --cache-dir .uv-cache sync
+uv --cache-dir .uv-cache sync --locked --no-config --exclude-newer '7 days'
 chmod +x scripts/skyctl
 keyenv doctor
 ```
@@ -70,6 +70,10 @@ keyenv run -- ./scripts/skyctl launch sky/lambda-smoke.yaml
 ```
 
 The active provider is stored in `.sky-provider`, which is intentionally ignored by Git.
+
+All remote requirement manifests use the shared `constraints.txt`, exact runtime pins, and a
+seven-day release-age check in CI. The RTX 2060 files retain the validated Torch 2.6 / torchvision
+0.21 pair; the separate RTX 4090 image retains Torch 2.9.1 / torchvision 0.24.1.
 
 ## Useful Commands
 

@@ -9,8 +9,7 @@ import time
 
 import torch
 from torch import nn
-from torch.utils.data import DataLoader
-from torch.utils.data import TensorDataset
+from torch.utils.data import DataLoader, TensorDataset
 
 
 def parse_args() -> argparse.Namespace:
@@ -63,9 +62,7 @@ def main() -> int:
                 "hostname": socket.gethostname(),
                 "device": str(device),
                 "cuda_available": torch.cuda.is_available(),
-                "cuda_device": torch.cuda.get_device_name(0)
-                if torch.cuda.is_available()
-                else None,
+                "cuda_device": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
                 "torch": torch.__version__,
                 "samples": args.samples,
                 "features": args.features,

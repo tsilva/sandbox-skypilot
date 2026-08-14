@@ -11,9 +11,7 @@ import time
 
 import torch
 from torch.utils.data import DataLoader
-from transformers import AutoModelForCausalLM
-from transformers import AutoTokenizer
-from transformers import get_cosine_schedule_with_warmup
+from transformers import AutoModelForCausalLM, AutoTokenizer, get_cosine_schedule_with_warmup
 
 
 def parse_args() -> argparse.Namespace:
@@ -34,17 +32,35 @@ def synthetic_texts() -> list[str]:
         "SkyPilot schedules machine learning workloads across heterogeneous GPU infrastructure.",
         "A transformer language model predicts the next token from a sequence of context tokens.",
         "Gradient checkpointing trades extra compute for lower activation memory during training.",
-        "Mixed precision training reduces GPU memory pressure and can improve tensor core throughput.",
-        "A disciplined smoke test verifies CUDA, model loading, forward passes, backward passes, and optimizer steps.",
-        "The RTX 4090 has enough memory for medium sized transformer experiments when sequence length is bounded.",
-        "Loss curves, throughput, and max allocated GPU memory are useful signals for infrastructure validation.",
-        "Synthetic data is not useful for model quality, but it is useful for testing the training stack.",
+        (
+            "Mixed precision training reduces GPU memory pressure and can improve tensor core "
+            "throughput."
+        ),
+        (
+            "A disciplined smoke test verifies CUDA, model loading, forward passes, backward "
+            "passes, and optimizer steps."
+        ),
+        (
+            "The RTX 4090 has enough memory for medium sized transformer experiments when "
+            "sequence length is bounded."
+        ),
+        (
+            "Loss curves, throughput, and max allocated GPU memory are useful signals for "
+            "infrastructure validation."
+        ),
+        (
+            "Synthetic data is not useful for model quality, but it is useful for testing the "
+            "training stack."
+        ),
     ]
     texts = []
     for index in range(128):
         left = base[index % len(base)]
         right = base[(index * 3 + 1) % len(base)]
-        texts.append(f"Example {index}: {left} {right} This paragraph is used for a short causal language modeling run.")
+        texts.append(
+            f"Example {index}: {left} {right} This paragraph is used for a short causal language "
+            "modeling run."
+        )
     return texts
 
 

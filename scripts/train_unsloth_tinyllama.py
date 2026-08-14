@@ -8,14 +8,16 @@ import importlib.metadata as metadata
 import json
 from pathlib import Path
 
-from unsloth import FastLanguageModel
 import torch
-
+from unsloth import FastLanguageModel
 
 PROMPTS = [
     (
         "Explain what SkyPilot does in one sentence.",
-        "SkyPilot schedules machine learning jobs across GPU infrastructure with a single task file.",
+        (
+            "SkyPilot schedules machine learning jobs across GPU infrastructure with a single "
+            "task file."
+        ),
     ),
     (
         "Give one practical reason to use LoRA for model tuning.",
@@ -23,11 +25,17 @@ PROMPTS = [
     ),
     (
         "What should a short GPU smoke test verify?",
-        "It should verify CUDA visibility, model loading, forward and backward passes, and checkpoint writing.",
+        (
+            "It should verify CUDA visibility, model loading, forward and backward passes, and "
+            "checkpoint writing."
+        ),
     ),
     (
         "Describe the role of Unsloth in fine-tuning.",
-        "Unsloth provides optimized model loading and training utilities for efficient LLM fine-tuning.",
+        (
+            "Unsloth provides optimized model loading and training utilities for efficient LLM "
+            "fine-tuning."
+        ),
     ),
 ]
 
@@ -37,12 +45,7 @@ def package_version(name: str) -> str:
 
 
 def format_example(instruction: str, response: str) -> str:
-    return (
-        "### Instruction:\n"
-        f"{instruction}\n\n"
-        "### Response:\n"
-        f"{response}"
-    )
+    return f"### Instruction:\n{instruction}\n\n### Response:\n{response}"
 
 
 def parse_args() -> argparse.Namespace:
