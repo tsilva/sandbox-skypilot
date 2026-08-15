@@ -7,8 +7,8 @@ resources:
 
 setup: |
   set -euo pipefail
-  python -m pip install --upgrade pip
-  python -m pip install -r requirements-transformers.txt
+  python -m pip install uv==0.11.13
+  uv pip install --system --exclude-newer '7 days' -r requirements-transformers.txt
   python - <<'PY'
   import torch
   import transformers

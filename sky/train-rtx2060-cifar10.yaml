@@ -7,8 +7,8 @@ resources:
 
 setup: |
   set -euo pipefail
-  python -m pip install --upgrade pip
-  python -m pip install -r requirements-rtx2060-cifar.txt
+  python -m pip install uv==0.11.13
+  uv pip install --system --exclude-newer '7 days' -r requirements-rtx2060-cifar.txt
   python - <<'PY'
   import torch
   import torchvision
@@ -22,4 +22,5 @@ setup: |
 
 run: |
   set -euo pipefail
+  python scripts/verify_torch_security.py
   python scripts/train_rtx2060_cifar10.py --epochs 5 --train-samples 12000 --val-samples 3000 --batch-size 128

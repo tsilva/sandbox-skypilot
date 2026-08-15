@@ -1,4 +1,5 @@
 .venv/
+.venv-*/
 .uv-cache/
 .env
 .env.*
