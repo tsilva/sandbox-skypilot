@@ -7,8 +7,8 @@ resources:
 
 setup: |
   set -euo pipefail
-  python -m pip install --upgrade pip
-  python -m pip install -r requirements-train.txt
+  python -m pip install uv==0.11.13
+  uv pip install --system --exclude-newer '7 days' -r requirements-train.txt
   python - <<'PY'
   import torch
   print("torch", torch.__version__)

@@ -71,9 +71,13 @@ keyenv run -- ./scripts/skyctl launch sky/lambda-smoke.yaml
 
 The active provider is stored in `.sky-provider`, which is intentionally ignored by Git.
 
+Launches use `scripts/sky_launch.py` because SkyPilot 0.12's hidden backend flag is incompatible
+with the security-fixed Click 8.3+ API. Other SkyPilot commands continue to use the upstream CLI.
+
 All remote requirement manifests use the shared `constraints.txt`, exact runtime pins, and a
-seven-day release-age check in CI. The RTX 2060 files retain the validated Torch 2.6 / torchvision
-0.21 pair; the separate RTX 4090 image retains Torch 2.9.1 / torchvision 0.24.1.
+seven-day release-age check in CI. The training files use the official Torch 2.13 / torchvision
+0.28 pair; the separate Unsloth RTX 4090 image retains its supported Torch 2.9.1 / torchvision
+0.24.1 pair.
 
 ## Useful Commands
 
@@ -108,17 +112,17 @@ Override the prefix with `SKY_CLUSTER_PREFIX` in `.env`.
 Use the same task file and choose the provider with `--infra`:
 
 ```bash
-sky launch --down --infra runpod -c train-runpod sky/train-pytorch.yaml
-sky launch --infra hyperbolic -c train-hyperbolic sky/train-pytorch.yaml
-sky launch --infra lambda -c train-lambda sky/train-pytorch.yaml
+uv run python scripts/sky_launch.py --down --infra runpod -c train-runpod sky/train-pytorch.yaml
+uv run python scripts/sky_launch.py --infra hyperbolic -c train-hyperbolic sky/train-pytorch.yaml
+uv run python scripts/sky_launch.py --infra lambda -c train-lambda sky/train-pytorch.yaml
 ```
 
 Or use the provider-specific task files:
 
 ```bash
-sky launch --down -c train-runpod sky/train-pytorch-runpod.yaml
-sky launch -c train-hyperbolic sky/train-pytorch-hyperbolic.yaml
-sky launch -c train-lambda sky/train-pytorch-lambda.yaml
+uv run python scripts/sky_launch.py --down -c train-runpod sky/train-pytorch-runpod.yaml
+uv run python scripts/sky_launch.py -c train-hyperbolic sky/train-pytorch-hyperbolic.yaml
+uv run python scripts/sky_launch.py -c train-lambda sky/train-pytorch-lambda.yaml
 ```
 
 The task installs `requirements-train.txt` on the remote instance, then runs
@@ -132,18 +136,18 @@ manually as soon as the job finishes:
 sky down train-hyperbolic
 ```
 
-You can also bypass the wrapper:
+You can also bypass `skyctl` with the repository's Click-independent launcher:
 
 ```bash
-uv --cache-dir .uv-cache run sky launch --infra runpod -c sandbox-sky-runpod sky/hello.yaml
-uv --cache-dir .uv-cache run sky launch -c sandbox-sky-hyperbolic sky/hyperbolic-smoke.yaml
-uv --cache-dir .uv-cache run sky launch -c sandbox-sky-lambda sky/lambda-smoke.yaml
+uv --cache-dir .uv-cache run python scripts/sky_launch.py --infra runpod -c sandbox-sky-runpod sky/hello.yaml
+uv --cache-dir .uv-cache run python scripts/sky_launch.py -c sandbox-sky-hyperbolic sky/hyperbolic-smoke.yaml
+uv --cache-dir .uv-cache run python scripts/sky_launch.py -c sandbox-sky-lambda sky/lambda-smoke.yaml
 ```
 
 For a Hyperbolic test:
 
 ```bash
-uv --cache-dir .uv-cache run sky launch -c hyperbolic-smoke sky/hyperbolic-smoke.yaml
+uv --cache-dir .uv-cache run python scripts/sky_launch.py -c hyperbolic-smoke sky/hyperbolic-smoke.yaml
 ```
 
 Hyperbolic does not support `sky stop` in this SkyPilot version; use `sky down`

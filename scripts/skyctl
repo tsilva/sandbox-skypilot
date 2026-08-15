@@ -76,6 +76,10 @@ sky() {
   uv run sky "$@"
 }
 
+sky_launch() {
+  uv run python scripts/sky_launch.py "$@"
+}
+
 cmd="${1:-}"
 shift || true
 
@@ -99,7 +103,7 @@ case "${cmd}" in
     task="${1:-${DEFAULT_TASK}}"
     provider="$(provider_arg_or_current "${2:-}")"
     cluster="$(cluster_for_provider "${provider}")"
-    sky launch --infra "${provider}" -c "${cluster}" "${task}"
+    sky_launch --infra "${provider}" -c "${cluster}" "${task}"
     ;;
   logs)
     provider="$(provider_arg_or_current "${1:-}")"
