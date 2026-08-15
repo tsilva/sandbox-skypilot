@@ -1,10 +1,10 @@
 -c constraints.txt
 torch==2.13.0
-transformers==5.14.1
+transformers==5.15.0
 accelerate==1.14.0
 numpy==2.4.6
 safetensors==0.8.0
-tokenizers==0.22.2
+tokenizers==0.23.1
 huggingface-hub==1.27.0
 tqdm==4.70.0
 pyyaml==6.0.3
