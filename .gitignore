@@ -1,5 +1,6 @@
 .env
 .venv/
+.venv-*/
 .uv-cache/
 .sky-provider
 __pycache__/
