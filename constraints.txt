@@ -1,6 +1,6 @@
 aiohttp>=3.14.3
 cryptography>=50.0.0
-gitpython>=3.1.58
+gitpython>=3.1.62
 guardrails-ai!=0.10.1
 mistralai!=2.4.6
 pillow>=12.3.0
