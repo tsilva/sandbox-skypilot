@@ -24,6 +24,11 @@ updates:
       - dependency-name: xformers
       - dependency-name: unsloth
       - dependency-name: unsloth-zoo
+      # Shared constraints must stay compatible with the pinned Unsloth image.
+      - dependency-name: transformers
+      - dependency-name: tokenizers
+      - dependency-name: huggingface-hub
+      - dependency-name: multidict
     schedule:
       interval: weekly
     cooldown:
