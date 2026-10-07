@@ -81,6 +81,9 @@ with the security-fixed Click 8.3+ API. Other SkyPilot commands continue to use 
 Dependabot uses uv for the control-plane manifest and lock. Its pip updates
 exclude SkyPilot and RunPod so remote-manifest updates cannot change the
 control-plane requirements without regenerating `uv.lock`.
+Both Python ecosystems use a seven-day Dependabot cooldown matching installation
+policy. Remote Torch, torchvision, xformers, and Unsloth pins require a coordinated
+manual update with compatible CUDA extras and passing manifest/security checks.
 
 All remote requirement manifests use the shared `constraints.txt`, exact runtime pins, and a
 seven-day release-age check in CI. The training files use the official Torch 2.13 / torchvision
