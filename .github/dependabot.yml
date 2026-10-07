@@ -4,6 +4,8 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 5
     groups:
       python-control-plane:
@@ -12,8 +14,20 @@ updates:
 
   - package-ecosystem: pip
     directory: /
+    # uv owns the control-plane manifest and lock; pip owns remote requirements.
+    ignore:
+      - dependency-name: skypilot
+      - dependency-name: runpod
+      # GPU versions and Unsloth extras are validated as a coupled stack.
+      - dependency-name: torch
+      - dependency-name: torchvision
+      - dependency-name: xformers
+      - dependency-name: unsloth
+      - dependency-name: unsloth-zoo
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 5
     groups:
       remote-python-stacks:
