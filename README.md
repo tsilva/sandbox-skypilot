@@ -1,4 +1,8 @@
-# SkyPilot RunPod / Hyperbolic / Lambda Cloud Sandbox
+<p align="center">
+  <!-- repo-tagline:start -->
+  <strong>☁️ Try SkyPilot across RunPod, Hyperbolic, and Lambda Cloud 🧪</strong>
+  <!-- repo-tagline:end -->
+</p>
 
 This is a small local setup for trying SkyPilot on RunPod, Hyperbolic, and Lambda Cloud without rewriting task YAMLs.
 
