@@ -45,7 +45,7 @@ def test_direct_high_risk_packages_are_patched() -> None:
 
     assert Version(rtx2060["pillow"]) >= Version("12.3.0")
     assert Version(transformers["transformers"]) >= Version("5.5.0")
-    assert "urllib3>=2.7.0" in (ROOT / "constraints.txt").read_text().splitlines()
+    assert "urllib3>=2.8.0" in (ROOT / "constraints.txt").read_text().splitlines()
 
 
 def test_unpatched_torch_internal_apis_are_not_used() -> None:
@@ -60,7 +60,11 @@ def test_control_plane_is_outside_known_vulnerable_ranges() -> None:
         "aiohttp": "3.14.3",
         "click": "8.3.3",
         "cryptography": "50.0.0",
-        "gitpython": "3.1.58",
+        "gitpython": "3.1.62",
+        "mako": "1.4.2",
+        "multidict": "6.9.1",
+        "pyjwt": "2.15.0",
+        "urllib3": "2.8.0",
         "pydantic-settings": "2.14.2",
         "python-multipart": "0.0.31",
         "setuptools": "83.0.0",

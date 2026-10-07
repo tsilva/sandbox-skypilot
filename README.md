@@ -1,4 +1,8 @@
-# SkyPilot RunPod / Hyperbolic / Lambda Cloud Sandbox
+<p align="center">
+  <!-- repo-tagline:start -->
+  <strong>☁️ Try SkyPilot across RunPod, Hyperbolic, and Lambda Cloud 🧪</strong>
+  <!-- repo-tagline:end -->
+</p>
 
 This is a small local setup for trying SkyPilot on RunPod, Hyperbolic, and Lambda Cloud without rewriting task YAMLs.
 
@@ -73,6 +77,10 @@ The active provider is stored in `.sky-provider`, which is intentionally ignored
 
 Launches use `scripts/sky_launch.py` because SkyPilot 0.12's hidden backend flag is incompatible
 with the security-fixed Click 8.3+ API. Other SkyPilot commands continue to use the upstream CLI.
+
+Dependabot uses uv for the control-plane manifest and lock. Its pip updates
+exclude SkyPilot and RunPod so remote-manifest updates cannot change the
+control-plane requirements without regenerating `uv.lock`.
 
 All remote requirement manifests use the shared `constraints.txt`, exact runtime pins, and a
 seven-day release-age check in CI. The training files use the official Torch 2.13 / torchvision
@@ -156,3 +164,11 @@ to terminate the instance:
 ```bash
 uv --cache-dir .uv-cache run sky down hyperbolic-smoke
 ```
+
+## Secret scanning
+
+GitHub Actions scans changed commits with the pinned Infisical CLI. New branches
+and rewritten pushes scan the complete history reachable from the new head, even
+when the previous commit is no longer available. Missing pull-request revisions
+and scanner errors still fail the check. Reports publish only finding locations;
+credentials and matched source content remain private.

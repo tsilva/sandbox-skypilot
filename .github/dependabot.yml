@@ -12,6 +12,10 @@ updates:
 
   - package-ecosystem: pip
     directory: /
+    # uv owns the control-plane manifest and lock; pip owns remote requirements.
+    ignore:
+      - dependency-name: skypilot
+      - dependency-name: runpod
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
