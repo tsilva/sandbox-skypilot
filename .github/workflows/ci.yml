@@ -33,6 +33,7 @@ jobs:
             uv pip compile "$manifest" \
               --no-config \
               --exclude-newer '7 days' \
+              --exclude-newer-package 'filelock=2026-11-04T18:37:11Z' \
               --python-version 3.11 \
               --python-platform x86_64-manylinux_2_28 \
               --output-file "${RUNNER_TEMP}/${manifest}"
