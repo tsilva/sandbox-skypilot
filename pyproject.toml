@@ -30,6 +30,10 @@ override-dependencies = [
   "click>=8.3.3",
 ]
 
+[tool.uv.pip.exclude-newer-package]
+# Audited FileLock 4.2.9 only. Remove the cutoff once it meets the seven-day gate.
+filelock = "2026-11-04T18:37:11Z"
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"
