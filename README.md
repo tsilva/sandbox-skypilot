@@ -1,3 +1,10 @@
+<!-- archive-repo:deprecation-notice:start -->
+> [!WARNING]
+> **Deprecated**
+>
+> This project is retired because I no longer plan to use the SkyPilot stack.
+<!-- archive-repo:deprecation-notice:end -->
+
 <p align="center">
   <!-- repo-tagline:start -->
   <strong>☁️ Try SkyPilot across RunPod, Hyperbolic, and Lambda Cloud 🧪</strong>
