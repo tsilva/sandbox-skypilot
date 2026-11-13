@@ -1,3 +1,10 @@
+<!-- archive-repo:deprecation-notice:start -->
+> [!WARNING]
+> **Deprecated**
+>
+> This project is retired because I no longer plan to use the SkyPilot stack.
+<!-- archive-repo:deprecation-notice:end -->
+
 <p align="center">
   <!-- repo-tagline:start -->
   <strong>☁️ Try SkyPilot across RunPod, Hyperbolic, and Lambda Cloud 🧪</strong>
@@ -11,30 +18,25 @@ This is a small local setup for trying SkyPilot on RunPod, Hyperbolic, and Lambd
 ```bash
 uv --cache-dir .uv-cache sync --locked --no-config --exclude-newer '7 days'
 chmod +x scripts/skyctl
-keyenv doctor
 ```
 
-The three provider keys declared in `.keyenv.toml` live in macOS Keychain.
-Launch provider commands through `keyenv run -- ...`; the scripts continue to
-read ordinary environment variables. Keep only non-secret overrides such as
-`SKY_CLUSTER_PREFIX` in `.env`.
-
-For RunPod, `keyenv run -- uv --cache-dir .uv-cache run runpod config` is also supported. For Hyperbolic, add your local SSH public key in the Hyperbolic dashboard because SkyPilot needs SSH access to launched instances. For Lambda Cloud, `keyenv run -- scripts/configure_lambda` can write SkyPilot's required credential file with mode `0600`.
+Configure the selected provider through its supported SkyPilot setup. Keep provider credentials out of committed
+files; this repository does not create SDK credential files or copy secrets into
+remote task definitions. Export non-secret overrides such as `SKY_CLUSTER_PREFIX`
+when needed.
 
 Verify credentials:
 
 ```bash
-keyenv run -- ./scripts/skyctl check
+./scripts/skyctl check
 ```
 
 ## Hyperbolic Setup
 
-SkyPilot's Hyperbolic provider expects your API key at `~/.hyperbolic/api_key`.
-You can create it from the Keychain value with:
+After configuring Hyperbolic for SkyPilot, verify its setup:
 
 ```bash
-keyenv run -- ./scripts/configure_hyperbolic
-uv --cache-dir .uv-cache run sky check hyperbolic
+uv run --frozen sky check hyperbolic
 ```
 
 Hyperbolic also requires an SSH public key for on-demand GPU instances. Add your
@@ -52,31 +54,29 @@ ssh-keygen -t ed25519 -C "your-email@example.com"
 
 ## Lambda Cloud Setup
 
-SkyPilot's Lambda Cloud provider expects your API key at `~/.lambda_cloud/lambda_keys`.
-You can create it from the Keychain value with:
+After configuring Lambda for SkyPilot, verify its setup:
 
 ```bash
-keyenv run -- ./scripts/configure_lambda
-uv --cache-dir .uv-cache run sky check lambda
+uv run --frozen sky check lambda
 ```
 
 ## Switch Providers
 
 ```bash
 ./scripts/skyctl use runpod
-keyenv run -- ./scripts/skyctl launch
+./scripts/skyctl launch
 
 ./scripts/skyctl use hyperbolic
-keyenv run -- ./scripts/skyctl launch sky/hyperbolic-smoke.yaml
+./scripts/skyctl launch sky/hyperbolic-smoke.yaml
 
 ./scripts/skyctl use lambda
-keyenv run -- ./scripts/skyctl launch sky/lambda-smoke.yaml
+./scripts/skyctl launch sky/lambda-smoke.yaml
 ```
 
 The active provider is stored in `.sky-provider`, which is intentionally ignored by Git.
 
 Launches use `scripts/sky_launch.py` because SkyPilot 0.12's hidden backend flag is incompatible
-with the security-fixed Click 8.3+ API. Other SkyPilot commands continue to use the upstream CLI.
+with the security-fixed Click 8.3+ API. Other SkyPilot commands use the upstream CLI and its normal provider configuration.
 
 Dependabot uses uv for the control-plane manifest and lock. Its pip updates
 exclude SkyPilot and RunPod so remote-manifest updates cannot change the
@@ -109,7 +109,7 @@ seven-day release-age check in CI. The training files use the official Torch 2.1
 - `sandbox-sky-hyperbolic`
 - `sandbox-sky-lambda`
 
-Override the prefix with `SKY_CLUSTER_PREFIX` in `.env`.
+Override the prefix with the exported `SKY_CLUSTER_PREFIX` environment variable.
 
 ## Tasks
 
@@ -146,7 +146,7 @@ Hyperbolic does not support auto-down in this SkyPilot version, so terminate it
 manually as soon as the job finishes:
 
 ```bash
-sky down train-hyperbolic
+uv run --frozen sky down train-hyperbolic
 ```
 
 You can also bypass `skyctl` with the repository's Click-independent launcher:
@@ -167,7 +167,7 @@ Hyperbolic does not support `sky stop` in this SkyPilot version; use `sky down`
 to terminate the instance:
 
 ```bash
-uv --cache-dir .uv-cache run sky down hyperbolic-smoke
+uv run --frozen sky down hyperbolic-smoke
 ```
 
 ## Secret scanning

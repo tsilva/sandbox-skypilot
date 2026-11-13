@@ -33,7 +33,7 @@ def load_task(path: str, *, infra: str | None, gpus: str | None) -> sky.Task:
     return task
 
 
-def main(argv: Sequence[str] | None = None) -> int:
+def launch(argv: Sequence[str] | None = None) -> int:
     args = parser().parse_args(argv)
     task = load_task(args.task, infra=args.infra, gpus=args.gpus)
     result = sky.stream_and_get(
@@ -53,6 +53,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     if handle is None or job_id is None:
         raise RuntimeError("SkyPilot launch returned no cluster handle or job id")
     return sky.tail_logs(handle.get_cluster_name(), job_id, follow=True)
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    return launch(argv)
 
 
 if __name__ == "__main__":

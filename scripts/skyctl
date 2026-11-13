@@ -10,13 +10,6 @@ cd "${ROOT_DIR}"
 
 export UV_CACHE_DIR="${ROOT_DIR}/.uv-cache"
 
-if [[ -f "${ROOT_DIR}/.env" ]]; then
-  set -a
-  # shellcheck disable=SC1091
-  source "${ROOT_DIR}/.env"
-  set +a
-fi
-
 CLUSTER_PREFIX="${SKY_CLUSTER_PREFIX:-sandbox-sky}"
 
 usage() {
@@ -73,11 +66,11 @@ cluster_for_provider() {
 }
 
 sky() {
-  uv run sky "$@"
+  uv run --frozen sky "$@"
 }
 
 sky_launch() {
-  uv run python scripts/sky_launch.py "$@"
+  uv run --frozen python scripts/sky_launch.py "$@"
 }
 
 cmd="${1:-}"
